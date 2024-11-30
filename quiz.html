@@ -36,7 +36,7 @@
     </style>
 </head>
 <body>
-    <h1>Random Quiz</h1>
+    <h1>Quiz</h1>
     <form id="quizForm">
         <div id="quizContainer" class="quiz-container"></div>
         <button type="button" onclick="submitQuiz()">Submit Quiz</button>
@@ -47,7 +47,7 @@
 
     <script src="questions.js"></script>
     <script>
-        // Get 25 random questions from the question bank
+        // Get 5 random questions from the question bank
         function getRandomQuestions(arr, count) {
             const shuffled = arr.sort(() => 0.5 - Math.random());
             return shuffled.slice(0, count);
@@ -69,7 +69,7 @@
         // Generate the quiz HTML
         function generateQuiz() {
             const questionBank = arrQuizDB.find(item => item.type === "table" && item.name === "mdl_question").data;
-            const randomQuestions = getRandomQuestions(questionBank, 25);
+            const randomQuestions = getRandomQuestions(questionBank, 5);
             const quizContainer = document.getElementById("quizContainer");
             quizContainer.innerHTML = ""; // Clear any existing content
 
@@ -138,7 +138,7 @@
             });
 
             const results = document.getElementById("results");
-            results.innerHTML = `<h2>Your Score: ${score} / 25</h2>`;
+            results.innerHTML = `<h2>Your Score: ${score} / 5</h2>`;
         }
 
         // Reset the quiz
