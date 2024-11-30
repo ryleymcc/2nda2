@@ -19,6 +19,14 @@
         .answers {
             margin-bottom: 20px;
         }
+        .correct {
+            color: green;
+            font-weight: bold;
+        }
+        .incorrect {
+            color: red;
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
@@ -26,6 +34,7 @@
     <form id="quizForm">
         <div id="quizContainer" class="quiz-container"></div>
         <button type="button" onclick="submitQuiz()">Submit Quiz</button>
+        <button type="button" onclick="resetQuiz()">Reset Quiz</button>
     </form>
     <div id="results"></div>
     
@@ -55,11 +64,14 @@
             const questionBank = arrQuizDB.find(item => item.type === "table" && item.name === "mdl_question").data;
             const randomQuestions = getRandomQuestions(questionBank, 25);
             const quizContainer = document.getElementById("quizContainer");
+            quizContainer.innerHTML = ""; // Clear any existing content
 
             randomQuestions.forEach((question, index) => {
                 const answers = parseAnswers(question.Answers);
                 const questionHTML = `
-                    <div class="question">${index + 1}. ${question.QuestionText}</div>
+                    <div class="question" id="question-${index}">
+                        ${index + 1}. ${question.QuestionText}
+                    </div>
                     <div class="answers">
                         ${answers
                             .map(
@@ -83,13 +95,27 @@
             const answers = Array.from(formData.entries());
             let score = 0;
 
-            answers.forEach(([question, value]) => {
+            answers.forEach(([question, value], index) => {
+                const questionElement = document.getElementById(`question-${index}`);
                 if (value === "true") {
                     score++;
+                    questionElement.insertAdjacentHTML("beforeend", `<span class="correct"> ✔</span>`);
+                } else {
+                    questionElement.insertAdjacentHTML("beforeend", `<span class="incorrect"> ✘</span>`);
                 }
             });
 
-            document.getElementById("results").innerHTML = `<h2>Your Score: ${score} / 25</h2>`;
+            const results = document.getElementById("results");
+            results.innerHTML = `<h2>Your Score: ${score} / 25</h2>`;
+        }
+
+        // Reset the quiz
+        function resetQuiz() {
+            const quizContainer = document.getElementById("quizContainer");
+            const results = document.getElementById("results");
+            quizContainer.innerHTML = ""; // Clear the quiz content
+            results.innerHTML = ""; // Clear the results
+            generateQuiz(); // Regenerate the quiz
         }
 
         // Generate the quiz on page load
