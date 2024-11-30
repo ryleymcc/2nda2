@@ -29,6 +29,10 @@
             font-weight: bold;
             margin-left: 10px;
         }
+        .error {
+            color: red;
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
@@ -39,7 +43,8 @@
         <button type="button" onclick="resetQuiz()">Reset Quiz</button>
     </form>
     <div id="results"></div>
-    
+    <div id="error" class="error"></div>
+
     <script src="questions.js"></script>
     <script>
         // Get 25 random questions from the question bank
@@ -94,6 +99,27 @@
         // Submit the quiz and calculate the score
         function submitQuiz() {
             const form = document.getElementById("quizForm");
+            const errorDiv = document.getElementById("error");
+            const totalQuestions = document.querySelectorAll(".question").length;
+
+            // Check if all questions are answered
+            let answeredQuestions = 0;
+            for (let i = 0; i < totalQuestions; i++) {
+                const selectedOption = form.querySelector(`input[name="q${i}"]:checked`);
+                if (selectedOption) {
+                    answeredQuestions++;
+                }
+            }
+
+            // If not all questions are answered, show an error message
+            if (answeredQuestions < totalQuestions) {
+                errorDiv.textContent = `Please answer all questions before submitting. (${answeredQuestions}/${totalQuestions} answered)`;
+                return;
+            }
+
+            // Clear the error message
+            errorDiv.textContent = "";
+
             const formData = new FormData(form);
             const answers = Array.from(formData.entries());
             let score = 0;
@@ -119,8 +145,10 @@
         function resetQuiz() {
             const quizContainer = document.getElementById("quizContainer");
             const results = document.getElementById("results");
+            const errorDiv = document.getElementById("error");
             quizContainer.innerHTML = ""; // Clear the quiz content
             results.innerHTML = ""; // Clear the results
+            errorDiv.textContent = ""; // Clear any error messages
             generateQuiz(); // Regenerate the quiz
         }
 
