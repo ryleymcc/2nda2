@@ -19,13 +19,15 @@
         .answers {
             margin-bottom: 20px;
         }
-        .correct {
+        .correct-mark {
             color: green;
             font-weight: bold;
+            margin-left: 10px;
         }
-        .incorrect {
+        .incorrect-mark {
             color: red;
             font-weight: bold;
+            margin-left: 10px;
         }
     </style>
 </head>
@@ -71,6 +73,7 @@
                 const questionHTML = `
                     <div class="question" id="question-${index}">
                         ${index + 1}. ${question.QuestionText}
+                        <span id="feedback-${index}"></span>
                     </div>
                     <div class="answers">
                         ${answers
@@ -96,12 +99,12 @@
             let score = 0;
 
             answers.forEach(([question, value], index) => {
-                const questionElement = document.getElementById(`question-${index}`);
+                const feedbackElement = document.getElementById(`feedback-${index}`);
                 if (value === "true") {
                     score++;
-                    questionElement.insertAdjacentHTML("beforeend", `<span class="correct"> ✔</span>`);
+                    feedbackElement.innerHTML = `<span class="correct-mark">✔</span>`;
                 } else {
-                    questionElement.insertAdjacentHTML("beforeend", `<span class="incorrect"> ✘</span>`);
+                    feedbackElement.innerHTML = `<span class="incorrect-mark">✘</span>`;
                 }
             });
 
