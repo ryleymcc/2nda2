@@ -73,7 +73,7 @@
                 const questionHTML = `
                     <div class="question" id="question-${index}">
                         ${index + 1}. ${question.QuestionText}
-                        <span id="feedback-${index}"></span>
+                        <span id="feedback-${index}" class="feedback"></span>
                     </div>
                     <div class="answers">
                         ${answers
@@ -97,6 +97,9 @@
             const formData = new FormData(form);
             const answers = Array.from(formData.entries());
             let score = 0;
+
+            // Clear previous feedback
+            document.querySelectorAll(".feedback").forEach(el => (el.innerHTML = ""));
 
             answers.forEach(([question, value], index) => {
                 const feedbackElement = document.getElementById(`feedback-${index}`);
