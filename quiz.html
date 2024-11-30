@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Random Quiz</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .quiz-container {
+            margin-bottom: 20px;
+        }
+        .question {
+            font-weight: bold;
+            margin: 15px 0 5px;
+        }
+        .answers {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Random Quiz</h1>
+    <form id="quizForm">
+        <div id="quizContainer" class="quiz-container"></div>
+        <button type="button" onclick="submitQuiz()">Submit Quiz</button>
+    </form>
+    <div id="results"></div>
+    
+    <script src="questions.js"></script>
+    <script>
+        // Get 25 random questions from the question bank
+        function getRandomQuestions(arr, count) {
+            const shuffled = arr.sort(() => 0.5 - Math.random());
+            return shuffled.slice(0, count);
+        }
+
+        // Parse the "Answers" field into a usable array
+        function parseAnswers(answerString) {
+            const parts = answerString.split("[col]");
+            const answers = [];
+            for (let i = 0; i < parts.length; i += 2) {
+                answers.push({
+                    text: parts[i],
+                    isCorrect: parts[i + 1] === "1.0000000"
+                });
+            }
+            return answers;
+        }
+
+        // Generate the quiz HTML
+        function generateQuiz() {
+            const questionBank = arrQuizDB.find(item => item.type === "table" && item.name === "mdl_question").data;
+            const randomQuestions = getRandomQuestions(questionBank, 25);
+            const quizContainer = document.getElementById("quizContainer");
+
+            randomQuestions.forEach((question, index) => {
+                const answers = parseAnswers(question.Answers);
+                const questionHTML = `
+                    <div class="question">${index + 1}. ${question.QuestionText}</div>
+                    <div class="answers">
+                        ${answers
+                            .map(
+                                (answer, i) =>
+                                    `<label>
+                                        <input type="radio" name="q${index}" value="${answer.isCorrect}">
+                                        ${answer.text}
+                                    </label><br>`
+                            )
+                            .join("")}
+                    </div>
+                `;
+                quizContainer.innerHTML += questionHTML;
+            });
+        }
+
+        // Submit the quiz and calculate the score
+        function submitQuiz() {
+            const form = document.getElementById("quizForm");
+            const formData = new FormData(form);
+            const answers = Array.from(formData.entries());
+            let score = 0;
+
+            answers.forEach(([question, value]) => {
+                if (value === "true") {
+                    score++;
+                }
+            });
+
+            document.getElementById("results").innerHTML = `<h2>Your Score: ${score} / 25</h2>`;
+        }
+
+        // Generate the quiz on page load
+        generateQuiz();
+    </script>
+</body>
+</html>
