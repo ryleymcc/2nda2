@@ -19,9 +19,7 @@
       --shadow: 0 10px 30px rgba(0,0,0,.08);
       --radius: 14px;
     }
-
     *{ box-sizing:border-box; }
-
     body{
       margin:0;
       font-family: system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
@@ -29,7 +27,6 @@
       color: var(--text);
       line-height: 1.55;
     }
-
     header{
       position: sticky;
       top: 0;
@@ -38,7 +35,6 @@
       color: #fff;
       border-bottom: 1px solid rgba(255,255,255,.15);
     }
-
     .topbar{
       max-width: 980px;
       margin: 0 auto;
@@ -49,33 +45,22 @@
       justify-content: space-between;
       flex-wrap: wrap;
     }
-
     .brand{
       display:flex;
       flex-direction: column;
       gap: 2px;
-      min-width: 220px;
+      min-width: 240px;
     }
-    .brand h1{
-      margin:0;
-      font-size: 1.15rem;
-      font-weight: 700;
-      letter-spacing: .2px;
-    }
-    .brand p{
-      margin:0;
-      font-size: .9rem;
-      opacity: .9;
-    }
+    .brand h1{ margin:0 0 6px; font-size: 1.15rem; font-weight: 800; }
+    .brand p{ margin:0; font-size: .9rem; opacity: .9; }
 
-    .pillrow{
+    .controls{
       display:flex;
       gap:10px;
       align-items:center;
       flex-wrap: wrap;
       justify-content: flex-end;
     }
-
     .pill{
       background: rgba(255,255,255,.14);
       border: 1px solid rgba(255,255,255,.20);
@@ -87,11 +72,22 @@
       gap:8px;
       white-space: nowrap;
     }
+    .pill select{
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.25);
+      background: rgba(255,255,255,.12);
+      color: #fff;
+      padding: 6px 10px;
+      font-weight: 700;
+      outline: none;
+      cursor: pointer;
+    }
+    .pill select option{ color: #111; }
 
     .btn{
       border: 0;
       cursor: pointer;
-      font-weight: 700;
+      font-weight: 800;
       padding: 10px 14px;
       border-radius: 999px;
       transition: transform .12s ease, filter .12s ease;
@@ -100,11 +96,7 @@
       gap:8px;
     }
     .btn:hover{ transform: translateY(-1px); filter: brightness(0.98); }
-
-    .btn-primary{
-      background: #fff;
-      color: var(--accent);
-    }
+    .btn-primary{ background: #fff; color: var(--accent); }
     .btn-ghost{
       background: rgba(255,255,255,.14);
       color: #fff;
@@ -115,6 +107,12 @@
       max-width: 980px;
       margin: 18px auto 72px;
       padding: 0 16px;
+      display: grid;
+      grid-template-columns: 1.55fr 1fr;
+      gap: 16px;
+    }
+    @media (max-width: 900px){
+      main{ grid-template-columns: 1fr; }
     }
 
     .panel{
@@ -125,20 +123,6 @@
       padding: 18px;
     }
 
-    .meta{
-      display:flex;
-      gap: 12px;
-      align-items:center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      margin-bottom: 14px;
-    }
-
-    .meta .small{
-      color: var(--muted);
-      font-size: .92rem;
-    }
-
     .error{
       display:none;
       margin: 10px 0 14px;
@@ -147,7 +131,7 @@
       color: var(--bad);
       border-radius: 12px;
       padding: 10px 12px;
-      font-weight: 700;
+      font-weight: 800;
     }
 
     .results{
@@ -156,26 +140,22 @@
       padding: 12px 14px;
       border: 1px solid var(--border);
       background: #fbfbfc;
+      display:none;
     }
-
-    .results h2{
-      margin: 0;
-      font-size: 1.1rem;
-    }
+    .results h2{ margin:0; font-size: 1.1rem; }
+    .results p{ margin: 6px 0 0; color: var(--muted); }
 
     .quiz-container{
       display:flex;
       flex-direction: column;
       gap: 14px;
     }
-
     .qcard{
       background: #fff;
       border: 1px solid var(--border);
       border-radius: 14px;
       padding: 14px;
     }
-
     .qhead{
       display:flex;
       align-items:flex-start;
@@ -183,13 +163,11 @@
       gap: 12px;
       margin-bottom: 10px;
     }
-
     .question{
-      font-weight: 800;
+      font-weight: 900;
       font-size: 1rem;
       margin: 0;
     }
-
     .feedback{
       font-weight: 900;
       font-size: 1.05rem;
@@ -204,8 +182,6 @@
       flex-direction: column;
       gap: 10px;
     }
-
-    /* Nice radio option rows */
     .option{
       display:flex;
       gap: 10px;
@@ -229,15 +205,67 @@
       accent-color: var(--accent);
       cursor:pointer;
     }
-    .option .txt{
-      flex: 1;
+    .option .txt{ flex: 1; }
+
+    .side-title{
+      display:flex;
+      align-items:center;
+      justify-content: space-between;
+      gap: 10px;
+      margin: 0 0 12px;
+    }
+    .side-title h2{
+      margin:0;
+      font-size: 1.1rem;
+      font-weight: 900;
+    }
+    .small{
+      color: var(--muted);
+      font-size: .92rem;
+      margin: 0 0 10px;
     }
 
-    /* Small screens */
-    @media (max-width:520px){
-      .brand{ min-width: unset; }
-      .pill{ font-size: .85rem; }
+    .history{
+      display:flex;
+      flex-direction: column;
+      gap: 10px;
+      max-height: 60vh;
+      overflow:auto;
+      padding-right: 6px;
     }
+    .attempt{
+      border: 1px solid var(--border);
+      background: #fbfbfc;
+      border-radius: 12px;
+      padding: 10px 12px;
+      display:flex;
+      align-items:center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+    .attempt .meta{
+      display:flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .attempt .meta .when{
+      font-weight: 800;
+      font-size: .95rem;
+    }
+    .attempt .meta .detail{
+      color: var(--muted);
+      font-size: .86rem;
+    }
+    .badge{
+      font-weight: 900;
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: #fff;
+      white-space: nowrap;
+    }
+    .badge.good{ border-color: rgba(26,127,55,.25); color: var(--good); }
+    .badge.bad{ border-color: rgba(198,40,40,.25); color: var(--bad); }
   </style>
 </head>
 
@@ -246,12 +274,22 @@
     <div class="topbar">
       <div class="brand">
         <h1>Quiz</h1>
-        <p>5 random questions from your bank</p>
+        <p>Random questions from your bank</p>
       </div>
 
-      <div class="pillrow">
-        <div class="pill" id="progressPill">Answered: <strong id="answeredCount">0</strong>/5</div>
-        <div class="pill" id="scorePill">Score: <strong id="scoreText">—</strong></div>
+      <div class="controls">
+        <div class="pill">
+          Questions:
+          <select id="questionCount" onchange="resetQuiz()">
+            <option value="5">5</option>
+            <option value="10">10</option>
+            <option value="15">15</option>
+            <option value="20">20</option>
+          </select>
+        </div>
+
+        <div class="pill">Answered: <strong id="answeredCount">0</strong>/<span id="totalCount">—</span></div>
+        <div class="pill">Score: <strong id="scoreText">—</strong></div>
 
         <button class="btn btn-primary" type="button" onclick="submitQuiz()">✔ Submit</button>
         <button class="btn btn-ghost" type="button" onclick="resetQuiz()">↻ Reset</button>
@@ -260,29 +298,46 @@
   </header>
 
   <main>
+    <!-- Quiz -->
     <div class="panel">
-      <div class="meta">
-        <div class="small">
-          Tip: answer all questions, then hit <strong>Submit</strong>. Use <strong>Reset</strong> for a fresh set.
-        </div>
-      </div>
-
       <div id="error" class="error"></div>
 
       <form id="quizForm">
         <div id="quizContainer" class="quiz-container"></div>
       </form>
 
-      <div id="results" class="results" style="display:none;"></div>
+      <div id="results" class="results"></div>
+    </div>
+
+    <!-- History -->
+    <div class="panel">
+      <div class="side-title">
+        <h2>Previous Results</h2>
+        <button class="btn btn-ghost" type="button" onclick="clearHistory()">🗑 Clear</button>
+      </div>
+      <p class="small">Stored in your browser (localStorage). This stays even if you refresh.</p>
+      <div id="history" class="history"></div>
     </div>
   </main>
 
   <script src="questions.js"></script>
   <script>
-    // Get 5 random questions from the question bank
+    const STORAGE_KEY = "a2_quiz_history_v1";
+
+    function getQuestionCount(){
+      const val = parseInt(document.getElementById("questionCount").value, 10);
+      return Number.isFinite(val) && val > 0 ? val : 5;
+    }
+
+    // Get N random questions from the question bank
     function getRandomQuestions(arr, count) {
-      const shuffled = arr.sort(() => 0.5 - Math.random());
-      return shuffled.slice(0, count);
+      // Fisher-Yates shuffle copy (more reliable than sort random)
+      const copy = arr.slice();
+      for (let i = copy.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [copy[i], copy[j]] = [copy[j], copy[i]];
+      }
+      return copy.slice(0, Math.min(count, copy.length));
     }
 
     // Parse the "Answers" field into a usable array
@@ -311,7 +366,7 @@
 
     function updateProgress(){
       const form = document.getElementById("quizForm");
-      const totalQuestions = document.querySelectorAll(".qcard").length || 5;
+      const totalQuestions = document.querySelectorAll(".qcard").length;
 
       let answered = 0;
       for (let i = 0; i < totalQuestions; i++) {
@@ -321,12 +376,65 @@
       document.getElementById("answeredCount").textContent = answered;
     }
 
+    function loadHistory(){
+      try{
+        return JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
+      }catch{
+        return [];
+      }
+    }
+
+    function saveHistory(history){
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(history));
+    }
+
+    function addAttemptToHistory(attempt){
+      const history = loadHistory();
+      history.unshift(attempt);             // newest first
+      history.splice(50);                   // keep last 50 attempts
+      saveHistory(history);
+      renderHistory();
+    }
+
+    function renderHistory(){
+      const historyEl = document.getElementById("history");
+      const history = loadHistory();
+
+      if(history.length === 0){
+        historyEl.innerHTML = `<div class="small">No attempts yet. Submit a quiz to see results here.</div>`;
+        return;
+      }
+
+      historyEl.innerHTML = history.map(a => {
+        const pct = Math.round(a.percent);
+        const cls = pct >= 70 ? "good" : "bad";
+        return `
+          <div class="attempt">
+            <div class="meta">
+              <div class="when">${new Date(a.when).toLocaleString()}</div>
+              <div class="detail">${a.score}/${a.total} (${pct}%)</div>
+            </div>
+            <div class="badge ${cls}">${a.total} Q</div>
+          </div>
+        `;
+      }).join("");
+    }
+
+    function clearHistory(){
+      localStorage.removeItem(STORAGE_KEY);
+      renderHistory();
+    }
+
     // Generate the quiz HTML
     function generateQuiz() {
       const questionBank =
         arrQuizDB.find(item => item.type === "table" && item.name === "mdl_question").data;
 
-      const randomQuestions = getRandomQuestions(questionBank, 5);
+      const desired = getQuestionCount();
+      const randomQuestions = getRandomQuestions(questionBank, desired);
+
+      document.getElementById("totalCount").textContent = randomQuestions.length;
+
       const quizContainer = document.getElementById("quizContainer");
       quizContainer.innerHTML = "";
 
@@ -361,10 +469,9 @@
       document.getElementById("results").style.display = "none";
       document.getElementById("results").innerHTML = "";
       document.getElementById("scoreText").textContent = "—";
-      updateProgress();
-
-      // Clear any lingering feedback
+      document.getElementById("answeredCount").textContent = "0";
       document.querySelectorAll(".feedback").forEach(el => (el.innerHTML = ""));
+      updateProgress();
     }
 
     // Submit the quiz and calculate the score
@@ -403,19 +510,31 @@
         }
       });
 
-      document.getElementById("scoreText").textContent = `${score}/5`;
+      const percent = (score / totalQuestions) * 100;
+      document.getElementById("scoreText").textContent = `${score}/${totalQuestions}`;
 
       const results = document.getElementById("results");
       results.style.display = "block";
-      results.innerHTML = `<h2>Your Score: ${score} / 5</h2>`;
+      results.innerHTML = `
+        <h2>Your Score: ${score} / ${totalQuestions}</h2>
+        <p>${Math.round(percent)}% correct</p>
+      `;
+
+      // Store attempt
+      addAttemptToHistory({
+        when: new Date().toISOString(),
+        score,
+        total: totalQuestions,
+        percent
+      });
     }
 
-    // Reset the quiz
     function resetQuiz() {
       generateQuiz();
     }
 
-    // Generate the quiz on page load
+    // Init
+    renderHistory();
     generateQuiz();
   </script>
 </body>
