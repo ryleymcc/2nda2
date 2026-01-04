@@ -1,159 +1,422 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Random Quiz</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-        }
-        .quiz-container {
-            margin-bottom: 20px;
-        }
-        .question {
-            font-weight: bold;
-            margin: 15px 0 5px;
-        }
-        .answers {
-            margin-bottom: 20px;
-        }
-        .correct-mark {
-            color: green;
-            font-weight: bold;
-            margin-left: 10px;
-        }
-        .incorrect-mark {
-            color: red;
-            font-weight: bold;
-            margin-left: 10px;
-        }
-        .error {
-            color: red;
-            font-weight: bold;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Random Quiz</title>
+
+  <style>
+    :root{
+      --bg:#f6f7f9;
+      --card:#fff;
+      --text:#1a1a1a;
+      --muted:#666;
+      --accent:#00447c;
+      --accent2:#2a6fb0;
+      --good:#1a7f37;
+      --bad:#c62828;
+      --border: rgba(0,0,0,.10);
+      --shadow: 0 10px 30px rgba(0,0,0,.08);
+      --radius: 14px;
+    }
+
+    *{ box-sizing:border-box; }
+
+    body{
+      margin:0;
+      font-family: system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.55;
+    }
+
+    header{
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      color: #fff;
+      border-bottom: 1px solid rgba(255,255,255,.15);
+    }
+
+    .topbar{
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 14px 16px;
+      display:flex;
+      gap: 14px;
+      align-items:center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+    }
+
+    .brand{
+      display:flex;
+      flex-direction: column;
+      gap: 2px;
+      min-width: 220px;
+    }
+    .brand h1{
+      margin:0;
+      font-size: 1.15rem;
+      font-weight: 700;
+      letter-spacing: .2px;
+    }
+    .brand p{
+      margin:0;
+      font-size: .9rem;
+      opacity: .9;
+    }
+
+    .pillrow{
+      display:flex;
+      gap:10px;
+      align-items:center;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .pill{
+      background: rgba(255,255,255,.14);
+      border: 1px solid rgba(255,255,255,.20);
+      padding: 8px 12px;
+      border-radius: 999px;
+      font-size: .9rem;
+      display:flex;
+      align-items:center;
+      gap:8px;
+      white-space: nowrap;
+    }
+
+    .btn{
+      border: 0;
+      cursor: pointer;
+      font-weight: 700;
+      padding: 10px 14px;
+      border-radius: 999px;
+      transition: transform .12s ease, filter .12s ease;
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+    }
+    .btn:hover{ transform: translateY(-1px); filter: brightness(0.98); }
+
+    .btn-primary{
+      background: #fff;
+      color: var(--accent);
+    }
+    .btn-ghost{
+      background: rgba(255,255,255,.14);
+      color: #fff;
+      border: 1px solid rgba(255,255,255,.25);
+    }
+
+    main{
+      max-width: 980px;
+      margin: 18px auto 72px;
+      padding: 0 16px;
+    }
+
+    .panel{
+      background: var(--card);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      border: 1px solid var(--border);
+      padding: 18px;
+    }
+
+    .meta{
+      display:flex;
+      gap: 12px;
+      align-items:center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      margin-bottom: 14px;
+    }
+
+    .meta .small{
+      color: var(--muted);
+      font-size: .92rem;
+    }
+
+    .error{
+      display:none;
+      margin: 10px 0 14px;
+      background: #ffecec;
+      border: 1px solid rgba(198,40,40,.25);
+      color: var(--bad);
+      border-radius: 12px;
+      padding: 10px 12px;
+      font-weight: 700;
+    }
+
+    .results{
+      margin-top: 14px;
+      border-radius: 12px;
+      padding: 12px 14px;
+      border: 1px solid var(--border);
+      background: #fbfbfc;
+    }
+
+    .results h2{
+      margin: 0;
+      font-size: 1.1rem;
+    }
+
+    .quiz-container{
+      display:flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .qcard{
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 14px;
+    }
+
+    .qhead{
+      display:flex;
+      align-items:flex-start;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 10px;
+    }
+
+    .question{
+      font-weight: 800;
+      font-size: 1rem;
+      margin: 0;
+    }
+
+    .feedback{
+      font-weight: 900;
+      font-size: 1.05rem;
+      min-width: 28px;
+      text-align: right;
+    }
+    .correct-mark{ color: var(--good); }
+    .incorrect-mark{ color: var(--bad); }
+
+    .answers{
+      display:flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    /* Nice radio option rows */
+    .option{
+      display:flex;
+      gap: 10px;
+      align-items:flex-start;
+      padding: 10px 12px;
+      border-radius: 12px;
+      border: 1px solid rgba(0,0,0,.10);
+      background: #fafbfd;
+      cursor: pointer;
+      transition: background .12s ease, transform .12s ease, border-color .12s ease;
+      user-select:none;
+    }
+    .option:hover{
+      background: #f2f6fb;
+      border-color: rgba(0,68,124,.25);
+      transform: translateY(-1px);
+    }
+    .option input{
+      margin-top: 3px;
+      transform: scale(1.15);
+      accent-color: var(--accent);
+      cursor:pointer;
+    }
+    .option .txt{
+      flex: 1;
+    }
+
+    /* Small screens */
+    @media (max-width:520px){
+      .brand{ min-width: unset; }
+      .pill{ font-size: .85rem; }
+    }
+  </style>
 </head>
+
 <body>
-    <h1>Quiz</h1>
-    <form id="quizForm">
+  <header>
+    <div class="topbar">
+      <div class="brand">
+        <h1>Quiz</h1>
+        <p>5 random questions from your bank</p>
+      </div>
+
+      <div class="pillrow">
+        <div class="pill" id="progressPill">Answered: <strong id="answeredCount">0</strong>/5</div>
+        <div class="pill" id="scorePill">Score: <strong id="scoreText">—</strong></div>
+
+        <button class="btn btn-primary" type="button" onclick="submitQuiz()">✔ Submit</button>
+        <button class="btn btn-ghost" type="button" onclick="resetQuiz()">↻ Reset</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="panel">
+      <div class="meta">
+        <div class="small">
+          Tip: answer all questions, then hit <strong>Submit</strong>. Use <strong>Reset</strong> for a fresh set.
+        </div>
+      </div>
+
+      <div id="error" class="error"></div>
+
+      <form id="quizForm">
         <div id="quizContainer" class="quiz-container"></div>
-        <button type="button" onclick="submitQuiz()">Submit Quiz</button>
-        <button type="button" onclick="resetQuiz()">Reset Quiz</button>
-    </form>
-    <div id="results"></div>
-    <div id="error" class="error"></div>
+      </form>
 
-    <script src="questions.js"></script>
-    <script>
-        // Get 5 random questions from the question bank
-        function getRandomQuestions(arr, count) {
-            const shuffled = arr.sort(() => 0.5 - Math.random());
-            return shuffled.slice(0, count);
+      <div id="results" class="results" style="display:none;"></div>
+    </div>
+  </main>
+
+  <script src="questions.js"></script>
+  <script>
+    // Get 5 random questions from the question bank
+    function getRandomQuestions(arr, count) {
+      const shuffled = arr.sort(() => 0.5 - Math.random());
+      return shuffled.slice(0, count);
+    }
+
+    // Parse the "Answers" field into a usable array
+    function parseAnswers(answerString) {
+      const parts = answerString.split("[col]");
+      const answers = [];
+      for (let i = 0; i < parts.length; i += 2) {
+        answers.push({
+          text: parts[i],
+          isCorrect: parts[i + 1] === "1.0000000"
+        });
+      }
+      return answers;
+    }
+
+    function setError(msg){
+      const errorDiv = document.getElementById("error");
+      if(!msg){
+        errorDiv.style.display = "none";
+        errorDiv.textContent = "";
+        return;
+      }
+      errorDiv.style.display = "block";
+      errorDiv.textContent = msg;
+    }
+
+    function updateProgress(){
+      const form = document.getElementById("quizForm");
+      const totalQuestions = document.querySelectorAll(".qcard").length || 5;
+
+      let answered = 0;
+      for (let i = 0; i < totalQuestions; i++) {
+        const selected = form.querySelector(`input[name="q${i}"]:checked`);
+        if (selected) answered++;
+      }
+      document.getElementById("answeredCount").textContent = answered;
+    }
+
+    // Generate the quiz HTML
+    function generateQuiz() {
+      const questionBank =
+        arrQuizDB.find(item => item.type === "table" && item.name === "mdl_question").data;
+
+      const randomQuestions = getRandomQuestions(questionBank, 5);
+      const quizContainer = document.getElementById("quizContainer");
+      quizContainer.innerHTML = "";
+
+      randomQuestions.forEach((question, index) => {
+        const answers = parseAnswers(question.Answers);
+
+        const questionHTML = `
+          <div class="qcard" id="qcard-${index}">
+            <div class="qhead">
+              <div class="question" id="question-${index}">
+                ${index + 1}. ${question.QuestionText}
+              </div>
+              <div id="feedback-${index}" class="feedback"></div>
+            </div>
+
+            <div class="answers">
+              ${answers.map((answer, i) => `
+                <label class="option">
+                  <input type="radio" name="q${index}" value="${answer.isCorrect}" onchange="updateProgress()" />
+                  <div class="txt">${answer.text}</div>
+                </label>
+              `).join("")}
+            </div>
+          </div>
+        `;
+
+        quizContainer.innerHTML += questionHTML;
+      });
+
+      // Reset UI state
+      setError("");
+      document.getElementById("results").style.display = "none";
+      document.getElementById("results").innerHTML = "";
+      document.getElementById("scoreText").textContent = "—";
+      updateProgress();
+
+      // Clear any lingering feedback
+      document.querySelectorAll(".feedback").forEach(el => (el.innerHTML = ""));
+    }
+
+    // Submit the quiz and calculate the score
+    function submitQuiz() {
+      const form = document.getElementById("quizForm");
+      const totalQuestions = document.querySelectorAll(".qcard").length;
+
+      // Check if all questions are answered
+      let answeredQuestions = 0;
+      for (let i = 0; i < totalQuestions; i++) {
+        const selectedOption = form.querySelector(`input[name="q${i}"]:checked`);
+        if (selectedOption) answeredQuestions++;
+      }
+
+      if (answeredQuestions < totalQuestions) {
+        setError(`Please answer all questions before submitting. (${answeredQuestions}/${totalQuestions} answered)`);
+        return;
+      }
+
+      setError("");
+
+      const formData = new FormData(form);
+      const answers = Array.from(formData.entries());
+      let score = 0;
+
+      // Clear previous feedback
+      document.querySelectorAll(".feedback").forEach(el => (el.innerHTML = ""));
+
+      answers.forEach(([question, value], index) => {
+        const feedbackElement = document.getElementById(`feedback-${index}`);
+        if (value === "true") {
+          score++;
+          feedbackElement.innerHTML = `<span class="correct-mark">✔</span>`;
+        } else {
+          feedbackElement.innerHTML = `<span class="incorrect-mark">✘</span>`;
         }
+      });
 
-        // Parse the "Answers" field into a usable array
-        function parseAnswers(answerString) {
-            const parts = answerString.split("[col]");
-            const answers = [];
-            for (let i = 0; i < parts.length; i += 2) {
-                answers.push({
-                    text: parts[i],
-                    isCorrect: parts[i + 1] === "1.0000000"
-                });
-            }
-            return answers;
-        }
+      document.getElementById("scoreText").textContent = `${score}/5`;
 
-        // Generate the quiz HTML
-        function generateQuiz() {
-            const questionBank = arrQuizDB.find(item => item.type === "table" && item.name === "mdl_question").data;
-            const randomQuestions = getRandomQuestions(questionBank, 5);
-            const quizContainer = document.getElementById("quizContainer");
-            quizContainer.innerHTML = ""; // Clear any existing content
+      const results = document.getElementById("results");
+      results.style.display = "block";
+      results.innerHTML = `<h2>Your Score: ${score} / 5</h2>`;
+    }
 
-            randomQuestions.forEach((question, index) => {
-                const answers = parseAnswers(question.Answers);
-                const questionHTML = `
-                    <div class="question" id="question-${index}">
-                        ${index + 1}. ${question.QuestionText}
-                        <span id="feedback-${index}" class="feedback"></span>
-                    </div>
-                    <div class="answers">
-                        ${answers
-                            .map(
-                                (answer, i) =>
-                                    `<label>
-                                        <input type="radio" name="q${index}" value="${answer.isCorrect}">
-                                        ${answer.text}
-                                    </label><br>`
-                            )
-                            .join("")}
-                    </div>
-                `;
-                quizContainer.innerHTML += questionHTML;
-            });
-        }
+    // Reset the quiz
+    function resetQuiz() {
+      generateQuiz();
+    }
 
-        // Submit the quiz and calculate the score
-        function submitQuiz() {
-            const form = document.getElementById("quizForm");
-            const errorDiv = document.getElementById("error");
-            const totalQuestions = document.querySelectorAll(".question").length;
-
-            // Check if all questions are answered
-            let answeredQuestions = 0;
-            for (let i = 0; i < totalQuestions; i++) {
-                const selectedOption = form.querySelector(`input[name="q${i}"]:checked`);
-                if (selectedOption) {
-                    answeredQuestions++;
-                }
-            }
-
-            // If not all questions are answered, show an error message
-            if (answeredQuestions < totalQuestions) {
-                errorDiv.textContent = `Please answer all questions before submitting. (${answeredQuestions}/${totalQuestions} answered)`;
-                return;
-            }
-
-            // Clear the error message
-            errorDiv.textContent = "";
-
-            const formData = new FormData(form);
-            const answers = Array.from(formData.entries());
-            let score = 0;
-
-            // Clear previous feedback
-            document.querySelectorAll(".feedback").forEach(el => (el.innerHTML = ""));
-
-            answers.forEach(([question, value], index) => {
-                const feedbackElement = document.getElementById(`feedback-${index}`);
-                if (value === "true") {
-                    score++;
-                    feedbackElement.innerHTML = `<span class="correct-mark">✔</span>`;
-                } else {
-                    feedbackElement.innerHTML = `<span class="incorrect-mark">✘</span>`;
-                }
-            });
-
-            const results = document.getElementById("results");
-            results.innerHTML = `<h2>Your Score: ${score} / 5</h2>`;
-        }
-
-        // Reset the quiz
-        function resetQuiz() {
-            const quizContainer = document.getElementById("quizContainer");
-            const results = document.getElementById("results");
-            const errorDiv = document.getElementById("error");
-            quizContainer.innerHTML = ""; // Clear the quiz content
-            results.innerHTML = ""; // Clear the results
-            errorDiv.textContent = ""; // Clear any error messages
-            generateQuiz(); // Regenerate the quiz
-        }
-
-        // Generate the quiz on page load
-        generateQuiz();
-    </script>
+    // Generate the quiz on page load
+    generateQuiz();
+  </script>
 </body>
 </html>
