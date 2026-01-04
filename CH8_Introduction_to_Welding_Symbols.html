@@ -76,6 +76,60 @@
     }
   </style>
 </head>
+<script>
+(() => {
+  // Unique per page
+  const KEY = "readerProgress:" + location.pathname;
+
+  // Debounce saves so we don't hammer storage while scrolling
+  let t = null;
+  const save = () => {
+    const y = Math.round(window.scrollY);
+    try { localStorage.setItem(KEY, String(y)); } catch (e) {}
+    // Also update URL hash so you can bookmark/share and resume on other devices
+    // (replaceState avoids adding a history entry every time)
+    try { history.replaceState(null, "", "#y=" + y); } catch (e) {}
+  };
+
+  const scheduleSave = () => {
+    clearTimeout(t);
+    t = setTimeout(save, 200);
+  };
+
+  // Restore position:
+  // 1) from URL hash (#y=1234)
+  // 2) else from localStorage
+  const restore = () => {
+    let y = null;
+
+    const m = location.hash.match(/(?:^|#)y=(\d+)/);
+    if (m) y = parseInt(m[1], 10);
+
+    if (!Number.isFinite(y)) {
+      try {
+        const v = localStorage.getItem(KEY);
+        if (v != null) y = parseInt(v, 10);
+      } catch (e) {}
+    }
+
+    if (Number.isFinite(y) && y > 0) {
+      // Wait a tick so layout/images settle
+      requestAnimationFrame(() => window.scrollTo({ top: y, left: 0, behavior: "instant" }));
+    }
+  };
+
+  // Save on scroll + before unload
+  window.addEventListener("scroll", scheduleSave, { passive: true });
+  window.addEventListener("beforeunload", save);
+
+  // Restore after DOM is ready
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", restore);
+  } else {
+    restore();
+  }
+})();
+</script>
 <body>
   <header><div class="title">2nd Class - Part A2</div></header>
   <main>
