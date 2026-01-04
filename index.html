@@ -1,26 +1,201 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>2nd cls A2</title>
-</head>
-<body>
-    <h1>Welcome</h1>
-    <p>Click on any chapter to learn more:</p>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>2nd cls A2</title>
 
-    <nav>
-        <ul>
-            <li><a href="CH1_Heat_Expansion_of_Solids.html">Chapter 1: Heat Expansion of Solids</a></li>
-            <li><a href="CH2_Thermodynamics_of_Gases.html">Chapter 2: Thermodynamics of Gases</a></li>
-            <li><a href="CH3_Thermodynamics_of_Steam.html">Chapter 3: Thermodynamics of Steam</a></li>
-            <li><a href="CH4_Practical_Thermodynamic_Cycles.html">Chapter 4: Practical Thermodynamic Cycles</a></li>
-            <li><a href="CH5_Metallurgy.html">Chapter 5: Metallurgy</a></li>
-            <li><a href="CH6_Testing_of_Metals.html">Chapter 6: Testing of Metals</a></li>
-            <li><a href="CH7_Corrosion_of_Metals.html">Chapter 7: Corrosion of Metals</a></li>
-            <li><a href="CH8_Introduction_to_Welding_Symbols.html">Chapter 8: Introduction to Welding Symbols</a></li>
-            <li><a href="quiz.html">QUIZ!</a></li>
-        </ul>
-    </nav>
+  <style>
+    :root {
+      --bg: #f6f7f9;
+      --card: #ffffff;
+      --accent: #00447c;
+      --accent-soft: #e6eef6;
+      --text: #1a1a1a;
+      --muted: #666;
+      --radius: 14px;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    header {
+      background: linear-gradient(135deg, #00447c, #2a6fb0);
+      color: white;
+      padding: 48px 20px 56px;
+    }
+
+    header .wrap {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    header h1 {
+      margin: 0 0 10px;
+      font-size: 2.2rem;
+      font-weight: 700;
+    }
+
+    header p {
+      margin: 0;
+      font-size: 1.05rem;
+      opacity: 0.9;
+    }
+
+    main {
+      max-width: 900px;
+      margin: -32px auto 64px;
+      padding: 0 20px;
+    }
+
+    .card {
+      background: var(--card);
+      border-radius: var(--radius);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+      padding: 28px;
+    }
+
+    .section-title {
+      font-size: 1.3rem;
+      font-weight: 600;
+      margin: 0 0 18px;
+    }
+
+    .chapters {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 16px;
+    }
+
+    .chapter {
+      display: block;
+      padding: 16px 18px;
+      border-radius: 12px;
+      text-decoration: none;
+      color: inherit;
+      background: var(--accent-soft);
+      transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+    }
+
+    .chapter:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 18px rgba(0,0,0,0.12);
+      background: #dce9f5;
+    }
+
+    .chapter span {
+      display: block;
+      font-size: 0.85rem;
+      color: var(--muted);
+      margin-bottom: 4px;
+    }
+
+    .chapter strong {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--accent);
+    }
+
+    .quiz {
+      margin-top: 28px;
+      text-align: center;
+    }
+
+    .quiz a {
+      display: inline-block;
+      padding: 14px 26px;
+      font-size: 1rem;
+      font-weight: 600;
+      border-radius: 999px;
+      background: var(--accent);
+      color: white;
+      text-decoration: none;
+      transition: background 0.15s ease, transform 0.15s ease;
+    }
+
+    .quiz a:hover {
+      background: #00345f;
+      transform: translateY(-1px);
+    }
+
+    footer {
+      text-align: center;
+      padding: 32px 20px;
+      color: var(--muted);
+      font-size: 0.85rem;
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <div class="wrap">
+      <h1>Welcome</h1>
+      <p>Click on any chapter to learn more</p>
+    </div>
+  </header>
+
+  <main>
+    <div class="card">
+      <h2 class="section-title">Chapters</h2>
+
+      <div class="chapters">
+        <a class="chapter" href="CH1_Heat_Expansion_of_Solids.html">
+          <span>Chapter 1</span>
+          <strong>Heat Expansion of Solids</strong>
+        </a>
+
+        <a class="chapter" href="CH2_Thermodynamics_of_Gases.html">
+          <span>Chapter 2</span>
+          <strong>Thermodynamics of Gases</strong>
+        </a>
+
+        <a class="chapter" href="CH3_Thermodynamics_of_Steam.html">
+          <span>Chapter 3</span>
+          <strong>Thermodynamics of Steam</strong>
+        </a>
+
+        <a class="chapter" href="CH4_Practical_Thermodynamic_Cycles.html">
+          <span>Chapter 4</span>
+          <strong>Practical Thermodynamic Cycles</strong>
+        </a>
+
+        <a class="chapter" href="CH5_Metallurgy.html">
+          <span>Chapter 5</span>
+          <strong>Metallurgy</strong>
+        </a>
+
+        <a class="chapter" href="CH6_Testing_of_Metals.html">
+          <span>Chapter 6</span>
+          <strong>Testing of Metals</strong>
+        </a>
+
+        <a class="chapter" href="CH7_Corrosion_of_Metals.html">
+          <span>Chapter 7</span>
+          <strong>Corrosion of Metals</strong>
+        </a>
+
+        <a class="chapter" href="CH8_Introduction_to_Welding_Symbols.html">
+          <span>Chapter 8</span>
+          <strong>Introduction to Welding Symbols</strong>
+        </a>
+      </div>
+
+      <div class="quiz">
+        <a href="quiz.html">QUIZ!</a>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    2nd Class Power Engineering – Part A2
+  </footer>
 </body>
 </html>
