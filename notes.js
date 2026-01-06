@@ -10,11 +10,12 @@
   const STORAGE_KEY = 'pageNotes';
   const HIGHLIGHT_CLASS = 'note-highlight';
   const ACTIVE_HIGHLIGHT_CLASS = 'note-highlight-active';
+  const CONTEXT_TEXT_THRESHOLD = 20;
+  const CONTEXT_MARGIN = 10;
 
   // State
   let notes = [];
   let trayOpen = false;
-  let contextMenuNote = null;
   let savedSelection = null;
 
   /**
@@ -226,10 +227,11 @@
     );
     
     let node;
-    while (node = walker.nextNode()) {
-      if (contextText.length > 20 && node.textContent.includes(contextText.substring(10, contextText.length - 10))) {
+    while ((node = walker.nextNode()) !== null) {
+      if (contextText.length > CONTEXT_TEXT_THRESHOLD && 
+          node.textContent.includes(contextText.substring(CONTEXT_MARGIN, contextText.length - CONTEXT_MARGIN))) {
         return node;
-      } else if (contextText.length <= 20 && node.textContent.includes(contextText)) {
+      } else if (contextText.length <= CONTEXT_TEXT_THRESHOLD && node.textContent.includes(contextText)) {
         return node;
       }
     }
@@ -287,8 +289,8 @@
       span.className = active ? ACTIVE_HIGHLIGHT_CLASS : HIGHLIGHT_CLASS;
       range.surroundContents(span);
     } catch (e) {
-      // If surroundContents fails, try alternative method
-      console.warn('Could not highlight range:', e);
+      // surroundContents fails when range spans multiple elements
+      console.warn('Could not highlight range (likely spans multiple elements):', e);
     }
   }
 
