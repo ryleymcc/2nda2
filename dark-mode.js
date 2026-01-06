@@ -9,6 +9,15 @@
     const theme = savedTheme || (prefersDark ? 'dark' : 'light');
     
     applyTheme(theme);
+    
+    // Listen for system preference changes
+    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+    mediaQuery.addEventListener('change', (e) => {
+      // Only update if user hasn't set a preference
+      if (!localStorage.getItem(THEME_KEY)) {
+        applyTheme(e.matches ? 'dark' : 'light');
+      }
+    });
   }
   
   // Apply theme to the document
