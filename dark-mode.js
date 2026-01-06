@@ -2,9 +2,27 @@
 (function() {
   const THEME_KEY = 'theme-preference';
   
+  // Safe localStorage wrapper
+  function getStoredTheme() {
+    try {
+      return localStorage.getItem(THEME_KEY);
+    } catch (e) {
+      console.warn('localStorage not available:', e);
+      return null;
+    }
+  }
+  
+  function setStoredTheme(theme) {
+    try {
+      localStorage.setItem(THEME_KEY, theme);
+    } catch (e) {
+      console.warn('Failed to save theme preference:', e);
+    }
+  }
+  
   // Initialize theme on page load
   function initTheme() {
-    const savedTheme = localStorage.getItem(THEME_KEY);
+    const savedTheme = getStoredTheme();
     const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
     const theme = savedTheme || (prefersDark ? 'dark' : 'light');
     
@@ -14,7 +32,7 @@
     const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
     mediaQuery.addEventListener('change', (e) => {
       // Only update if user hasn't set a preference
-      if (!localStorage.getItem(THEME_KEY)) {
+      if (!getStoredTheme()) {
         applyTheme(e.matches ? 'dark' : 'light');
       }
     });
@@ -27,7 +45,7 @@
     } else {
       document.documentElement.removeAttribute('data-theme');
     }
-    localStorage.setItem(THEME_KEY, theme);
+    setStoredTheme(theme);
     updateToggleButton(theme);
   }
   
