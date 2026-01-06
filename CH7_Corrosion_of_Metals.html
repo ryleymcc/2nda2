@@ -15,7 +15,22 @@
   </style>
 
   <style>
-    :root { --content-max: 920px; }
+    :root { 
+      --content-max: 920px;
+      --bg: #fff;
+      --text: #111;
+      --header-bg: rgba(255,255,255,.92);
+      --border: rgba(0,0,0,.08);
+      --table-border: rgba(0,0,0,.12);
+    }
+
+    [data-theme="dark"] {
+      --bg: #1a1a1a;
+      --text: #e5e5e5;
+      --header-bg: rgba(45,45,45,.92);
+      --border: rgba(255,255,255,.15);
+      --table-border: rgba(255,255,255,.2);
+    }
 
     body {
       margin: 0;
@@ -27,11 +42,12 @@
     header {
       position: sticky;
       top: 0;
-      background: rgba(255,255,255,.92);
+      background: var(--header-bg);
       backdrop-filter: blur(8px);
-      border-bottom: 1px solid rgba(0,0,0,.08);
+      border-bottom: 1px solid var(--border);
       padding: 10px 16px;
       z-index: 5;
+      transition: background-color 0.3s ease, border-color 0.3s ease;
     }
 
     header .title {
@@ -42,6 +58,37 @@
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    #darkModeToggle {
+      background: rgba(0,68,124,0.1);
+      border: 1px solid rgba(0,68,124,0.2);
+      color: #00447c;
+      font-size: 16px;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+      padding: 0;
+      flex-shrink: 0;
+    }
+
+    [data-theme="dark"] #darkModeToggle {
+      background: rgba(74,158,255,0.15);
+      border-color: rgba(74,158,255,0.3);
+      color: #4a9eff;
+    }
+
+    #darkModeToggle:hover {
+      transform: scale(1.05);
     }
 
     main {
@@ -59,13 +106,14 @@
       overflow-x:auto;
       -webkit-overflow-scrolling: touch;
       margin: 18px 0;
-      border: 1px solid rgba(0,0,0,.08);
+      border: 1px solid var(--border);
       border-radius: 10px;
       padding: 8px;
+      transition: border-color 0.3s ease;
     }
 
     table { border-collapse: collapse; width: max-content; min-width: 100%; }
-    td, th { padding: 6px 8px; border: 1px solid rgba(0,0,0,.12); vertical-align: top; }
+    td, th { padding: 6px 8px; border: 1px solid var(--table-border); vertical-align: top; transition: border-color 0.3s ease; }
 
     /* Keep MathJax layout intact:
        - Do NOT force line-height on mjx elements (can break fractions)
@@ -135,7 +183,8 @@
 })();
 </script>
 <body>
-  <header><div class="title">2nd Class - Part A2</div></header>
+  <script src="dark-mode.js"></script>
+  <header><div class="title"><span>2nd Class - Part A2</span><button id="darkModeToggle" onclick="toggleDarkMode()" aria-label="Toggle dark mode">🌙</button></div></header>
   <main>
     <div id="MathJax_Message" style="padding-top:70px;display:none"></div>
 <div class="Basic-Text-Frame" id="_idContainer119" style="padding-top:70px">

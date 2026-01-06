@@ -19,6 +19,20 @@
       --shadow: 0 10px 30px rgba(0,0,0,.08);
       --radius: 14px;
     }
+
+    /* Dark theme colors */
+    [data-theme="dark"] {
+      --bg: #1a1a1a;
+      --card: #2d2d2d;
+      --text: #e5e5e5;
+      --muted: #a0a0a0;
+      --accent: #4a9eff;
+      --accent2: #3a7fc0;
+      --good: #4caf50;
+      --bad: #ef5350;
+      --border: rgba(255,255,255,.15);
+      --shadow: 0 10px 30px rgba(0,0,0,.4);
+    }
     *{ box-sizing:border-box; }
     body{
       margin:0;
@@ -26,6 +40,7 @@
       background: var(--bg);
       color: var(--text);
       line-height: 1.55;
+      transition: background-color 0.3s ease, color 0.3s ease;
     }
     header{
       position: sticky;
@@ -34,6 +49,10 @@
       background: linear-gradient(135deg, var(--accent), var(--accent2));
       color: #fff;
       border-bottom: 1px solid rgba(255,255,255,.15);
+    }
+
+    [data-theme="dark"] header {
+      background: linear-gradient(135deg, #1a3a5c, #2a5080);
     }
     .topbar{
       max-width: 980px;
@@ -60,6 +79,27 @@
       align-items:center;
       flex-wrap: wrap;
       justify-content: flex-end;
+    }
+
+    #darkModeToggle {
+      background: rgba(255, 255, 255, 0.15);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      color: white;
+      font-size: 18px;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+      padding: 0;
+    }
+
+    #darkModeToggle:hover {
+      background: rgba(255, 255, 255, 0.25);
+      transform: scale(1.05);
     }
     .pill{
       background: rgba(255,255,255,.14);
@@ -121,6 +161,7 @@
       box-shadow: var(--shadow);
       border: 1px solid var(--border);
       padding: 18px;
+      transition: background-color 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
     }
 
     .error{
@@ -132,6 +173,12 @@
       border-radius: 12px;
       padding: 10px 12px;
       font-weight: 800;
+      transition: background-color 0.3s ease, border-color 0.3s ease;
+    }
+
+    [data-theme="dark"] .error {
+      background: rgba(198,40,40,.15);
+      border-color: rgba(239,83,80,.3);
     }
 
     .results{
@@ -141,6 +188,11 @@
       border: 1px solid var(--border);
       background: #fbfbfc;
       display:none;
+      transition: background-color 0.3s ease, border-color 0.3s ease;
+    }
+
+    [data-theme="dark"] .results {
+      background: rgba(255,255,255,.05);
     }
     .results h2{ margin:0; font-size: 1.1rem; }
     .results p{ margin: 6px 0 0; color: var(--muted); }
@@ -155,6 +207,11 @@
       border: 1px solid var(--border);
       border-radius: 14px;
       padding: 14px;
+      transition: background-color 0.3s ease, border-color 0.3s ease;
+    }
+
+    [data-theme="dark"] .qcard {
+      background: var(--card);
     }
     .qhead{
       display:flex;
@@ -191,13 +248,24 @@
       border: 1px solid rgba(0,0,0,.10);
       background: #fafbfd;
       cursor: pointer;
-      transition: background .12s ease, transform .12s ease, border-color .12s ease;
+      transition: background 0.3s ease, transform 0.12s ease, border-color 0.3s ease;
       user-select:none;
     }
+
+    [data-theme="dark"] .option {
+      background: rgba(255,255,255,.03);
+      border-color: rgba(255,255,255,.10);
+    }
+
     .option:hover{
       background: #f2f6fb;
       border-color: rgba(0,68,124,.25);
       transform: translateY(-1px);
+    }
+
+    [data-theme="dark"] .option:hover {
+      background: rgba(255,255,255,.08);
+      border-color: rgba(74,158,255,.35);
     }
     .option input{
       margin-top: 3px;
@@ -242,6 +310,11 @@
       align-items:center;
       justify-content: space-between;
       gap: 10px;
+      transition: background-color 0.3s ease, border-color 0.3s ease;
+    }
+
+    [data-theme="dark"] .attempt {
+      background: rgba(255,255,255,.05);
     }
     .attempt .meta{
       display:flex;
@@ -263,6 +336,11 @@
       border: 1px solid var(--border);
       background: #fff;
       white-space: nowrap;
+      transition: background-color 0.3s ease, border-color 0.3s ease;
+    }
+
+    [data-theme="dark"] .badge {
+      background: var(--card);
     }
     .badge.good{ border-color: rgba(26,127,55,.25); color: var(--good); }
     .badge.bad{ border-color: rgba(198,40,40,.25); color: var(--bad); }
@@ -270,6 +348,7 @@
 </head>
 
 <body>
+  <script src="dark-mode.js"></script>
   <header>
     <div class="topbar">
       <div class="brand">
@@ -278,6 +357,8 @@
       </div>
 
       <div class="controls">
+        <button id="darkModeToggle" onclick="toggleDarkMode()" aria-label="Toggle dark mode">🌙</button>
+
         <div class="pill">
           Questions:
           <select id="questionCount" onchange="resetQuiz()">

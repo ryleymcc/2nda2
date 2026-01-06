@@ -16,6 +16,16 @@
       --radius: 14px;
     }
 
+    /* Dark theme colors */
+    [data-theme="dark"] {
+      --bg: #1a1a1a;
+      --card: #2d2d2d;
+      --accent: #4a9eff;
+      --accent-soft: #2a3f5f;
+      --text: #e5e5e5;
+      --muted: #a0a0a0;
+    }
+
     * { box-sizing: border-box; }
 
     body {
@@ -24,17 +34,47 @@
       background: var(--bg);
       color: var(--text);
       line-height: 1.6;
+      transition: background-color 0.3s ease, color 0.3s ease;
     }
 
     header {
       background: linear-gradient(135deg, #00447c, #2a6fb0);
       color: white;
       padding: 48px 20px 56px;
+      position: relative;
+    }
+
+    [data-theme="dark"] header {
+      background: linear-gradient(135deg, #1a3a5c, #2a5080);
     }
 
     header .wrap {
       max-width: 900px;
       margin: 0 auto;
+      position: relative;
+    }
+
+    #darkModeToggle {
+      position: absolute;
+      top: 16px;
+      right: 20px;
+      background: rgba(255, 255, 255, 0.15);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      color: white;
+      font-size: 20px;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+    }
+
+    #darkModeToggle:hover {
+      background: rgba(255, 255, 255, 0.25);
+      transform: scale(1.05);
     }
 
     header h1 {
@@ -60,6 +100,11 @@
       border-radius: var(--radius);
       box-shadow: 0 10px 30px rgba(0,0,0,0.08);
       padding: 28px;
+      transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    [data-theme="dark"] .card {
+      box-shadow: 0 10px 30px rgba(0,0,0,0.4);
     }
 
     .section-title {
@@ -81,13 +126,18 @@
       text-decoration: none;
       color: inherit;
       background: var(--accent-soft);
-      transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+      transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.3s ease;
     }
 
     .chapter:hover {
       transform: translateY(-2px);
       box-shadow: 0 8px 18px rgba(0,0,0,0.12);
       background: #dce9f5;
+    }
+
+    [data-theme="dark"] .chapter:hover {
+      background: #3a5070;
+      box-shadow: 0 8px 18px rgba(0,0,0,0.4);
     }
 
     .chapter span {
@@ -125,6 +175,14 @@
       transform: translateY(-1px);
     }
 
+    [data-theme="dark"] .quiz a {
+      background: var(--accent);
+    }
+
+    [data-theme="dark"] .quiz a:hover {
+      background: #3a8aef;
+    }
+
     footer {
       text-align: center;
       padding: 32px 20px;
@@ -135,8 +193,10 @@
 </head>
 
 <body>
+  <script src="dark-mode.js"></script>
   <header>
     <div class="wrap">
+      <button id="darkModeToggle" onclick="toggleDarkMode()" aria-label="Toggle dark mode">🌙</button>
       <h1>Welcome</h1>
       <p>Click on any chapter to learn more</p>
     </div>
