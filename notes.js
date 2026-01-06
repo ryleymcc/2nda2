@@ -15,6 +15,7 @@
   let notes = [];
   let trayOpen = false;
   let contextMenuNote = null;
+  let savedSelection = null;
 
   /**
    * Initialize the note system
@@ -86,7 +87,7 @@
     const position = getPositionInfo(range);
     
     const note = {
-      id: Date.now() + Math.random(),
+      id: Date.now().toString() + Math.random().toString().substring(2),
       text: text,
       timestamp: Date.now(),
       url: getCurrentPageUrl(),
@@ -226,7 +227,9 @@
     
     let node;
     while (node = walker.nextNode()) {
-      if (node.textContent.includes(contextText.substring(10, contextText.length - 10))) {
+      if (contextText.length > 20 && node.textContent.includes(contextText.substring(10, contextText.length - 10))) {
+        return node;
+      } else if (contextText.length <= 20 && node.textContent.includes(contextText)) {
         return node;
       }
     }
@@ -358,7 +361,7 @@
 
     // Add event listeners
     notesList.querySelectorAll('.note-item').forEach(item => {
-      const noteId = parseFloat(item.dataset.noteId);
+      const noteId = item.dataset.noteId;
       item.addEventListener('click', (e) => {
         if (!e.target.classList.contains('note-delete')) {
           jumpToNote(noteId);
@@ -369,7 +372,7 @@
     notesList.querySelectorAll('.note-delete').forEach(btn => {
       btn.addEventListener('click', (e) => {
         e.stopPropagation();
-        const noteId = parseFloat(btn.dataset.noteId);
+        const noteId = btn.dataset.noteId;
         if (confirm('Delete this note?')) {
           deleteNote(noteId);
         }
@@ -441,6 +444,17 @@
     // Prevent default context menu
     e.preventDefault();
 
+    // Save the selection range before it gets cleared
+    try {
+      savedSelection = {
+        range: selection.getRangeAt(0).cloneRange(),
+        text: selectedText
+      };
+    } catch (err) {
+      console.error('Failed to save selection:', err);
+      return;
+    }
+
     // Create custom context menu
     const menu = document.createElement('div');
     menu.id = 'notes-context-menu';
@@ -457,12 +471,24 @@
 
     // Add event listener to save note
     document.getElementById('save-note-btn').addEventListener('click', () => {
-      const sel = window.getSelection();
-      if (sel && !sel.isCollapsed) {
-        createNote(sel);
+      if (savedSelection && savedSelection.range) {
+        // Create a temporary selection from the saved range
+        const tempSelection = {
+          getRangeAt: () => savedSelection.range,
+          toString: () => savedSelection.text,
+          isCollapsed: false
+        };
+        
+        createNote(tempSelection);
         openTray();
         renderNotes();
-        sel.removeAllRanges();
+        
+        // Clear the selection
+        const sel = window.getSelection();
+        if (sel) {
+          sel.removeAllRanges();
+        }
+        savedSelection = null;
       }
       removeCustomContextMenu();
     });
