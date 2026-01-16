@@ -415,7 +415,7 @@
     
     // Safety check: ensure orpIndex is within bounds
     if (orpIndex < 0 || orpIndex >= word.length) {
-      console.error(`Invalid ORP index ${orpIndex} for word "${word}"`);
+      console.error(`Invalid ORP index ${orpIndex} for word of length ${word.length}`);
       wordElement.textContent = word;
       updateStatus(`Word ${currentIndex + 1} of ${words.length}`);
       return;
