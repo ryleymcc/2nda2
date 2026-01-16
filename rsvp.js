@@ -9,7 +9,7 @@
   // Configuration
   const DEFAULT_WPM = 250;
   const MIN_WPM = 100;
-  const MAX_WPM = 500;
+  const MAX_WPM = 1000;
   const WPM_STEP = 50;
 
   // State
