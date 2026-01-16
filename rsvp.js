@@ -421,23 +421,47 @@
       return;
     }
     
-    // Build word with ORP highlighting 
-    // Position the word so the ORP character is at the fixed center
+    // Build word with ORP highlighting
+    // Split the word into before, ORP, and after sections
     const before = word.substring(0, orpIndex);
     const orpChar = word[orpIndex];
     const after = word.substring(orpIndex + 1);
     
-    // Use spacing strategy to center the ORP character
-    // Add equal spacing on both sides to balance the word around ORP
-    const beforeLength = before.length;
-    const afterLength = after.length;
-    const maxLength = Math.max(beforeLength, afterLength);
+    // Use a positioned layout where ORP stays at center
+    // Create invisible text to measure width, then position the word
+    // so the ORP character center is at 50%
+    wordElement.innerHTML = `
+      <span class="rsvp-word-container">
+        <span class="rsvp-before">${escapeHtml(before)}</span><span class="rsvp-orp">${escapeHtml(orpChar)}</span><span class="rsvp-after">${escapeHtml(after)}</span>
+      </span>
+    `;
     
-    // Calculate padding needed on each side
-    const leftPadding = ' '.repeat(maxLength - beforeLength);
-    const rightPadding = ' '.repeat(maxLength - afterLength);
+    // After rendering, calculate and apply the position
+    requestAnimationFrame(() => {
+      const container = wordElement.querySelector('.rsvp-word-container');
+      const orpElement = wordElement.querySelector('.rsvp-orp');
+      const beforeElement = wordElement.querySelector('.rsvp-before');
+      
+      if (container && orpElement && beforeElement) {
+        // Get the width of the text before ORP
+        const beforeWidth = beforeElement.offsetWidth;
+        // Get ORP character width
+        const orpWidth = orpElement.offsetWidth;
+        // Calculate offset: distance from start of word to center of ORP character
+        const orpCenterOffset = beforeWidth + (orpWidth / 2);
+        
+        // Get container width
+        const displayWidth = wordElement.offsetWidth;
+        const displayCenter = displayWidth / 2;
+        
+        // Calculate how much to shift the word left so ORP center aligns with display center
+        const shiftLeft = orpCenterOffset - displayCenter;
+        
+        // Apply transform
+        container.style.transform = `translateX(${-shiftLeft}px)`;
+      }
+    });
     
-    wordElement.innerHTML = `<span class="rsvp-word-content"><span class="rsvp-before">${escapeHtml(leftPadding + before)}</span><span class="rsvp-orp">${escapeHtml(orpChar)}</span><span class="rsvp-after">${escapeHtml(after + rightPadding)}</span></span>`;
     updateStatus(`Word ${currentIndex + 1} of ${words.length}`);
   }
 
