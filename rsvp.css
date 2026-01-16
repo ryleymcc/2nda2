@@ -146,6 +146,13 @@
   display: inline;
 }
 
+/* Word content wrapper */
+.rsvp-word-content {
+  display: inline-block;
+  white-space: pre;
+  letter-spacing: normal;
+}
+
 /* Before ORP text - positioned to the left of ORP */
 .rsvp-before {
   display: inline;

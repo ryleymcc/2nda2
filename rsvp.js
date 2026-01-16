@@ -427,14 +427,17 @@
     const orpChar = word[orpIndex];
     const after = word.substring(orpIndex + 1);
     
-    // Calculate horizontal offset to center the ORP character
-    // In monospace font, each character is 1ch wide
-    // ORP character center is at (orpIndex + 0.5) * 1ch from the word start
-    // We want this at 50% of the container
-    // Transform shifts the word so ORP center aligns with container center
-    const orpCenterOffset = (orpIndex + 0.5);
+    // Use spacing strategy to center the ORP character
+    // Add equal spacing on both sides to balance the word around ORP
+    const beforeLength = before.length;
+    const afterLength = after.length;
+    const maxLength = Math.max(beforeLength, afterLength);
     
-    wordElement.innerHTML = `<span style="display: inline-block; position: relative; left: 50%; transform: translateX(-${orpCenterOffset}ch);"><span class="rsvp-before">${escapeHtml(before)}</span><span class="rsvp-orp">${escapeHtml(orpChar)}</span><span class="rsvp-after">${escapeHtml(after)}</span></span>`;
+    // Calculate padding needed on each side
+    const leftPadding = ' '.repeat(maxLength - beforeLength);
+    const rightPadding = ' '.repeat(maxLength - afterLength);
+    
+    wordElement.innerHTML = `<span class="rsvp-word-content"><span class="rsvp-before">${escapeHtml(leftPadding + before)}</span><span class="rsvp-orp">${escapeHtml(orpChar)}</span><span class="rsvp-after">${escapeHtml(after + rightPadding)}</span></span>`;
     updateStatus(`Word ${currentIndex + 1} of ${words.length}`);
   }
 
