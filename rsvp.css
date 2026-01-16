@@ -142,6 +142,7 @@
   display: inline-block;
   white-space: nowrap;
   will-change: transform;
+  transition: none; /* Disable all transitions for instant word updates */
 }
 
 .rsvp-before,
