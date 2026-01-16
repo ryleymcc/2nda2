@@ -9,7 +9,7 @@
   // Configuration
   const DEFAULT_WPM = 250;
   const MIN_WPM = 100;
-  const MAX_WPM = 1000;
+  const MAX_WPM = 500;
   const WPM_STEP = 50;
 
   // State
@@ -283,16 +283,8 @@
   function getStartingPosition() {
     const selection = window.getSelection();
     
-    // Check for caret position
-    if (selection && !selection.isCollapsed) {
-      // Use selection anchor
-      const range = selection.getRangeAt(0);
-      return {
-        node: range.startContainer,
-        offset: range.startOffset
-      };
-    } else if (selection && selection.rangeCount > 0) {
-      // Use caret position
+    // Check for active selection or caret position
+    if (selection && selection.rangeCount > 0) {
       const range = selection.getRangeAt(0);
       return {
         node: range.startContainer,
