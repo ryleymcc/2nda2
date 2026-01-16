@@ -113,7 +113,7 @@
 .rsvp-display {
   min-height: 120px;
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
   background: #f8f9fa;
   border: 2px solid #e0e0e0;
@@ -121,34 +121,33 @@
   padding: 30px;
   font-size: 2.5rem;
   font-weight: 500;
-  text-align: center;
   font-family: 'Courier New', Consolas, Monaco, Menlo, monospace;
   line-height: 1.2;
-  word-break: break-word;
+  word-break: keep-all;
   position: relative;
+  overflow: visible;
 }
 
 .rsvp-word {
   display: block;
   position: relative;
   width: 100%;
-  text-align: center;
+  white-space: nowrap;
   letter-spacing: 0;
+  font-variant-ligatures: none;
+  text-rendering: geometricPrecision;
 }
 
-/* Base style for ORP word segments */
+.rsvp-word-container {
+  display: inline-block;
+  white-space: nowrap;
+  transition: transform 0.1s ease-out;
+  will-change: transform;
+}
+
 .rsvp-before,
 .rsvp-after {
   display: inline-block;
-  vertical-align: baseline;
-}
-
-.rsvp-before {
-  text-align: right;
-}
-
-.rsvp-after {
-  text-align: left;
 }
 
 /* ORP (Optimal Recognition Point) Highlighting */
@@ -159,7 +158,6 @@
   text-decoration-thickness: 3px;
   text-decoration-color: #c62828;
   display: inline-block;
-  vertical-align: baseline;
   position: relative;
 }
 
