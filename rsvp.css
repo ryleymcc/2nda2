@@ -124,14 +124,19 @@
   text-align: center;
   font-family: 'Courier New', 'Courier', monospace;
   line-height: 1.2;
-  word-break: break-word;
   position: relative;
+  overflow: hidden;
 }
 
 .rsvp-word {
   display: inline-block;
   white-space: nowrap;
   position: relative;
+  /* No transition for instant positioning */
+}
+
+.rsvp-char {
+  display: inline-block;
 }
 
 /* ORP (Optimal Recognition Point) Highlighting */

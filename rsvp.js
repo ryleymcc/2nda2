@@ -169,6 +169,7 @@
     // Reset state
     currentIndex = 0;
     isPlaying = false;
+    cachedDisplayCenterX = null; // Reset cache when modal opens
     updatePlayPauseButton();
     displayCurrentWord();
     
@@ -406,8 +407,7 @@
     
     if (currentIndex >= words.length) {
       wordElement.innerHTML = 'Ready';
-      wordElement.style.paddingLeft = '0';
-      wordElement.style.paddingRight = '0';
+      wordElement.style.transform = '';
       updateStatus('');
       return;
     }
@@ -415,45 +415,64 @@
     const word = words[currentIndex];
     const orpIndex = calculateORP(word);
     
-    // Build word with ORP highlighting
+    // Build word with ORP highlighting wrapped in spans for measurement
     let html = '';
     for (let i = 0; i < word.length; i++) {
       if (i === orpIndex) {
-        html += `<span class="rsvp-orp">${escapeHtml(word[i])}</span>`;
+        html += `<span class="rsvp-orp" data-orp="true">${escapeHtml(word[i])}</span>`;
       } else {
-        html += escapeHtml(word[i]);
+        html += `<span class="rsvp-char">${escapeHtml(word[i])}</span>`;
       }
     }
     
     wordElement.innerHTML = html;
     
-    // Calculate padding to anchor ORP at fixed position
-    // Use monospace character width approximation
-    const displayElement = document.getElementById('rsvp-display');
-    const computedStyle = window.getComputedStyle(displayElement);
-    const fontSize = parseFloat(computedStyle.fontSize);
-    
-    // For monospace fonts, character width is approximately 0.6 * fontSize
-    const charWidth = fontSize * 0.6;
-    
-    // Calculate center position of display area
-    const displayWidth = displayElement.clientWidth;
-    const centerX = displayWidth / 2;
-    
-    // Position where ORP should be (at center)
-    const orpTargetX = centerX;
-    
-    // Calculate actual position of ORP character in the word
-    const charsBeforeORP = orpIndex;
-    const wordWidthBeforeORP = charsBeforeORP * charWidth;
-    
-    // Calculate required left padding to align ORP to center
-    const requiredPaddingLeft = orpTargetX - wordWidthBeforeORP - (charWidth / 2);
-    
-    // Apply padding
-    wordElement.style.paddingLeft = Math.max(0, requiredPaddingLeft) + 'px';
+    // Position the word immediately after DOM update
+    positionWordByORP(wordElement, orpIndex);
     
     updateStatus(`Word ${currentIndex + 1} of ${words.length}`);
+  }
+
+  // Cache for display center position to avoid repeated DOM measurements
+  let cachedDisplayCenterX = null;
+  
+  /**
+   * Get the center X position of the display area (cached)
+   */
+  function getDisplayCenterX() {
+    if (cachedDisplayCenterX === null) {
+      const displayElement = document.getElementById('rsvp-display');
+      const displayRect = displayElement.getBoundingClientRect();
+      cachedDisplayCenterX = displayRect.left + displayRect.width / 2;
+    }
+    return cachedDisplayCenterX;
+  }
+  
+  /**
+   * Position the word so the ORP character is at a fixed horizontal position
+   */
+  function positionWordByORP(wordElement, orpIndex) {
+    // Find the ORP character element
+    const orpChar = wordElement.querySelector('[data-orp="true"]');
+    if (!orpChar) {
+      wordElement.style.transform = '';
+      return;
+    }
+    
+    // Get the position of the ORP character
+    const orpRect = orpChar.getBoundingClientRect();
+    
+    // Calculate the center of the ORP character
+    const orpCenterX = orpRect.left + orpRect.width / 2;
+    
+    // Get the cached display center position
+    const displayCenterX = getDisplayCenterX();
+    
+    // Calculate how much we need to shift the word
+    const shiftX = displayCenterX - orpCenterX;
+    
+    // Apply the transform to shift the word
+    wordElement.style.transform = `translateX(${shiftX}px)`;
   }
 
   /**
