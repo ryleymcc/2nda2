@@ -136,9 +136,6 @@
    * Initialize dark mode
    */
   function init() {
-    const theme = getInitialTheme();
-    applyTheme(theme);
-    
     // Wait for DOM to be ready for toggle button
     if (document.readyState === 'loading') {
       document.addEventListener('DOMContentLoaded', () => {
@@ -151,11 +148,11 @@
     }
   }
 
-  // Apply theme immediately to prevent flash
+  // Apply theme immediately to prevent flash (before DOM is ready)
   const theme = getInitialTheme();
   applyTheme(theme);
 
-  // Initialize when ready
+  // Initialize toggle button and watchers when ready
   init();
 
 })();

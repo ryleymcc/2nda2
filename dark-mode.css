@@ -3,20 +3,7 @@
  * Theme variables and toggle button styling
  */
 
-/* Light theme (default) - Already defined in inline styles */
-:root {
-  --bg: #f6f7f9;
-  --card: #ffffff;
-  --accent: #00447c;
-  --accent-soft: #e6eef6;
-  --text: #1a1a1a;
-  --muted: #666;
-  --radius: 14px;
-  --border: rgba(0, 0, 0, 0.1);
-  --shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-}
-
-/* Dark theme */
+/* Dark theme - overrides light theme variables defined in HTML */
 [data-theme="dark"] {
   --bg: #1a1a1a;
   --card: #2d2d2d;
