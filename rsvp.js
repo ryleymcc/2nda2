@@ -413,6 +413,14 @@
     const word = words[currentIndex];
     const orpIndex = calculateORP(word);
     
+    // Safety check: ensure orpIndex is within bounds
+    if (orpIndex < 0 || orpIndex >= word.length) {
+      console.error(`Invalid ORP index ${orpIndex} for word "${word}"`);
+      wordElement.textContent = word;
+      updateStatus(`Word ${currentIndex + 1} of ${words.length}`);
+      return;
+    }
+    
     // Build word with ORP highlighting using fixed positioning structure
     // Split word into: before ORP | ORP char | after ORP
     const before = word.substring(0, orpIndex);
