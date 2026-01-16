@@ -169,6 +169,7 @@
     // Reset state
     currentIndex = 0;
     isPlaying = false;
+    cachedDisplayCenterX = null; // Reset cache when modal opens
     updatePlayPauseButton();
     displayCurrentWord();
     
@@ -406,6 +407,7 @@
     
     if (currentIndex >= words.length) {
       wordElement.innerHTML = 'Ready';
+      wordElement.style.transform = '';
       updateStatus('');
       return;
     }
@@ -413,18 +415,67 @@
     const word = words[currentIndex];
     const orpIndex = calculateORP(word);
     
-    // Build word with ORP highlighting
+    // Build word with ORP highlighting wrapped in spans for measurement
     let html = '';
     for (let i = 0; i < word.length; i++) {
       if (i === orpIndex) {
-        html += `<span class="rsvp-orp">${escapeHtml(word[i])}</span>`;
+        html += `<span class="rsvp-orp" data-orp="true">${escapeHtml(word[i])}</span>`;
       } else {
-        html += escapeHtml(word[i]);
+        html += `<span class="rsvp-char">${escapeHtml(word[i])}</span>`;
       }
     }
     
     wordElement.innerHTML = html;
+    
+    // Position the word immediately after DOM update
+    positionWordByORP(wordElement, orpIndex);
+    
     updateStatus(`Word ${currentIndex + 1} of ${words.length}`);
+  }
+
+  // Cache for display dimensions to avoid repeated DOM measurements
+  let cachedDisplayCenterX = null;
+  
+  /**
+   * Get the center X position of the display area
+   * Caches the center X coordinate to minimize expensive getBoundingClientRect() calls
+   */
+  function getDisplayCenterX() {
+    // Cache center X position since display container doesn't move during playback
+    if (cachedDisplayCenterX === null) {
+      const displayElement = document.getElementById('rsvp-display');
+      const displayRect = displayElement.getBoundingClientRect();
+      cachedDisplayCenterX = displayRect.left + displayRect.width / 2;
+    }
+    
+    return cachedDisplayCenterX;
+  }
+  
+  /**
+   * Position the word so the ORP character is at a fixed horizontal position
+   */
+  function positionWordByORP(wordElement, orpIndex) {
+    // Find the ORP character element
+    const orpChar = wordElement.querySelector('[data-orp="true"]');
+    if (!orpChar) {
+      wordElement.style.transform = '';
+      return;
+    }
+    
+    // Get the position of the ORP character
+    const orpRect = orpChar.getBoundingClientRect();
+    
+    // Calculate the center of the ORP character
+    const orpCenterX = orpRect.left + orpRect.width / 2;
+    
+    // Get the display center position
+    const displayCenterX = getDisplayCenterX();
+    
+    // Calculate how much we need to shift the word
+    const shiftX = displayCenterX - orpCenterX;
+    
+    // Apply the transform to shift the word
+    wordElement.style.transform = `translateX(${shiftX}px)`;
   }
 
   /**
