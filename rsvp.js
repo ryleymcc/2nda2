@@ -427,8 +427,11 @@
     
     wordElement.innerHTML = html;
     
-    // Position the word immediately after DOM update
-    positionWordByORP(wordElement, orpIndex);
+    // Position the word after layout is complete
+    // Use requestAnimationFrame to ensure DOM has been laid out
+    requestAnimationFrame(() => {
+      positionWordByORP(wordElement, orpIndex);
+    });
     
     updateStatus(`Word ${currentIndex + 1} of ${words.length}`);
   }
