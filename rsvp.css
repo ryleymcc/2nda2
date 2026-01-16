@@ -129,17 +129,11 @@
 }
 
 .rsvp-word {
-  display: inline;
-  letter-spacing: 0;
-}
-
-/* Fixed ORP positioning structure */
-.rsvp-word-container {
   display: block;
   position: relative;
   width: 100%;
   text-align: center;
-  white-space: nowrap;
+  letter-spacing: 0;
 }
 
 /* Base style for ORP word segments */

@@ -419,11 +419,7 @@
     const orpChar = word[orpIndex];
     const after = word.substring(orpIndex + 1);
     
-    wordElement.innerHTML = `
-      <span class="rsvp-word-container">
-        <span class="rsvp-before">${escapeHtml(before)}</span><span class="rsvp-orp">${escapeHtml(orpChar)}</span><span class="rsvp-after">${escapeHtml(after)}</span>
-      </span>
-    `.trim();
+    wordElement.innerHTML = `<span class="rsvp-before">${escapeHtml(before)}</span><span class="rsvp-orp">${escapeHtml(orpChar)}</span><span class="rsvp-after">${escapeHtml(after)}</span>`;
     updateStatus(`Word ${currentIndex + 1} of ${words.length}`);
   }
 
