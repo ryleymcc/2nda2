@@ -132,35 +132,28 @@
   display: block;
   position: relative;
   width: 100%;
-  text-align: center;
+  height: 1.2em;
   letter-spacing: 0;
 }
 
-/* Base style for ORP word segments */
-.rsvp-before,
-.rsvp-after {
-  display: inline-block;
-  vertical-align: baseline;
-}
-
-.rsvp-before {
-  text-align: right;
-}
-
-.rsvp-after {
-  text-align: left;
-}
-
-/* ORP (Optimal Recognition Point) Highlighting */
+/* ORP (Optimal Recognition Point) Highlighting - always centered at 50% */
 .rsvp-orp {
   color: #c62828;
   font-weight: 700;
   text-decoration: underline;
   text-decoration-thickness: 3px;
   text-decoration-color: #c62828;
-  display: inline-block;
-  vertical-align: baseline;
-  position: relative;
+  display: inline;
+}
+
+/* Before ORP text - positioned to the left of ORP */
+.rsvp-before {
+  display: inline;
+}
+
+/* After ORP text - positioned to the right of ORP */
+.rsvp-after {
+  display: inline;
 }
 
 /* Controls Section */

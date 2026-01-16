@@ -421,13 +421,20 @@
       return;
     }
     
-    // Build word with ORP highlighting using fixed positioning structure
-    // Split word into: before ORP | ORP char | after ORP
+    // Build word with ORP highlighting 
+    // Position the word so the ORP character is at the fixed center
     const before = word.substring(0, orpIndex);
     const orpChar = word[orpIndex];
     const after = word.substring(orpIndex + 1);
     
-    wordElement.innerHTML = `<span class="rsvp-before">${escapeHtml(before)}</span><span class="rsvp-orp">${escapeHtml(orpChar)}</span><span class="rsvp-after">${escapeHtml(after)}</span>`;
+    // Calculate horizontal offset to center the ORP character
+    // In monospace font, each character is 1ch wide
+    // ORP character center is at (orpIndex + 0.5) * 1ch from the word start
+    // We want this at 50% of the container
+    // Transform shifts the word so ORP center aligns with container center
+    const orpCenterOffset = (orpIndex + 0.5);
+    
+    wordElement.innerHTML = `<span style="display: inline-block; position: relative; left: 50%; transform: translateX(-${orpCenterOffset}ch);"><span class="rsvp-before">${escapeHtml(before)}</span><span class="rsvp-orp">${escapeHtml(orpChar)}</span><span class="rsvp-after">${escapeHtml(after)}</span></span>`;
     updateStatus(`Word ${currentIndex + 1} of ${words.length}`);
   }
 
