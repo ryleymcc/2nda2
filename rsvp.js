@@ -406,6 +406,8 @@
     
     if (currentIndex >= words.length) {
       wordElement.innerHTML = 'Ready';
+      wordElement.style.paddingLeft = '0';
+      wordElement.style.paddingRight = '0';
       updateStatus('');
       return;
     }
@@ -424,6 +426,33 @@
     }
     
     wordElement.innerHTML = html;
+    
+    // Calculate padding to anchor ORP at fixed position
+    // Use monospace character width approximation
+    const displayElement = document.getElementById('rsvp-display');
+    const computedStyle = window.getComputedStyle(displayElement);
+    const fontSize = parseFloat(computedStyle.fontSize);
+    
+    // For monospace fonts, character width is approximately 0.6 * fontSize
+    const charWidth = fontSize * 0.6;
+    
+    // Calculate center position of display area
+    const displayWidth = displayElement.clientWidth;
+    const centerX = displayWidth / 2;
+    
+    // Position where ORP should be (at center)
+    const orpTargetX = centerX;
+    
+    // Calculate actual position of ORP character in the word
+    const charsBeforeORP = orpIndex;
+    const wordWidthBeforeORP = charsBeforeORP * charWidth;
+    
+    // Calculate required left padding to align ORP to center
+    const requiredPaddingLeft = orpTargetX - wordWidthBeforeORP - (charWidth / 2);
+    
+    // Apply padding
+    wordElement.style.paddingLeft = Math.max(0, requiredPaddingLeft) + 'px';
+    
     updateStatus(`Word ${currentIndex + 1} of ${words.length}`);
   }
 
