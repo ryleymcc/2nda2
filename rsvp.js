@@ -419,13 +419,11 @@
     const orpChar = word[orpIndex];
     const after = word.substring(orpIndex + 1);
     
-    let html = '<span class="rsvp-word-container">';
-    html += `<span class="rsvp-before">${escapeHtml(before)}</span>`;
-    html += `<span class="rsvp-orp">${escapeHtml(orpChar)}</span>`;
-    html += `<span class="rsvp-after">${escapeHtml(after)}</span>`;
-    html += '</span>';
-    
-    wordElement.innerHTML = html;
+    wordElement.innerHTML = `<span class="rsvp-word-container">` +
+      `<span class="rsvp-before">${escapeHtml(before)}</span>` +
+      `<span class="rsvp-orp">${escapeHtml(orpChar)}</span>` +
+      `<span class="rsvp-after">${escapeHtml(after)}</span>` +
+      `</span>`;
     updateStatus(`Word ${currentIndex + 1} of ${words.length}`);
   }
 

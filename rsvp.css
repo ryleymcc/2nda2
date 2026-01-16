@@ -142,16 +142,19 @@
   white-space: nowrap;
 }
 
-.rsvp-before {
+/* Base style for ORP word segments */
+.rsvp-before,
+.rsvp-after {
   display: inline-block;
-  text-align: right;
   vertical-align: baseline;
 }
 
+.rsvp-before {
+  text-align: right;
+}
+
 .rsvp-after {
-  display: inline-block;
   text-align: left;
-  vertical-align: baseline;
 }
 
 /* ORP (Optimal Recognition Point) Highlighting */
