@@ -1,0 +1,161 @@
+/**
+ * Dark Mode Styles
+ * Theme variables and toggle button styling
+ */
+
+/* Light theme (default) - Already defined in inline styles */
+:root {
+  --bg: #f6f7f9;
+  --card: #ffffff;
+  --accent: #00447c;
+  --accent-soft: #e6eef6;
+  --text: #1a1a1a;
+  --muted: #666;
+  --radius: 14px;
+  --border: rgba(0, 0, 0, 0.1);
+  --shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+}
+
+/* Dark theme */
+[data-theme="dark"] {
+  --bg: #1a1a1a;
+  --card: #2d2d2d;
+  --accent: #4a9eff;
+  --accent-soft: #2a3f5f;
+  --text: #e4e4e4;
+  --muted: #a0a0a0;
+  --border: rgba(255, 255, 255, 0.1);
+  --shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+}
+
+/* Dark mode toggle button */
+.dark-mode-toggle {
+  position: fixed;
+  top: 20px;
+  right: 80px;
+  width: 50px;
+  height: 50px;
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  color: white;
+  font-size: 1.5rem;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+  z-index: 9997;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dark-mode-toggle:hover {
+  transform: scale(1.1);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.dark-mode-toggle:active {
+  transform: scale(0.95);
+}
+
+.dark-mode-toggle:focus {
+  outline: 2px solid rgba(255, 255, 255, 0.5);
+  outline-offset: 2px;
+}
+
+/* Dark theme adjustments for specific elements */
+[data-theme="dark"] header {
+  background: linear-gradient(135deg, #1a3a5c, #2a5a8c);
+}
+
+[data-theme="dark"] .chapter:hover {
+  background: #3a4f6f;
+}
+
+[data-theme="dark"] .quiz a:hover {
+  background: #3a7acc;
+}
+
+/* Dark mode for notes tray */
+[data-theme="dark"] .notes-tray {
+  background: #2d2d2d;
+  box-shadow: -2px 0 10px rgba(0, 0, 0, 0.5);
+}
+
+[data-theme="dark"] .notes-tray-header {
+  background: linear-gradient(135deg, #1a3a5c, #2a5a8c);
+  border-bottom: 1px solid #3d3d3d;
+}
+
+[data-theme="dark"] .notes-tray-content {
+  background: #2d2d2d;
+}
+
+[data-theme="dark"] .note-item {
+  background: #3a3a3a;
+  border-left-color: #4a9eff;
+}
+
+[data-theme="dark"] .note-item:hover {
+  background: #2a3f5f;
+}
+
+[data-theme="dark"] .note-footer {
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+[data-theme="dark"] .notes-context-menu {
+  background: #2d2d2d;
+  border: 1px solid #3d3d3d;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+}
+
+[data-theme="dark"] .notes-context-menu-item:hover {
+  background: #3a3a3a;
+}
+
+[data-theme="dark"] .note-highlight {
+  background-color: #4a4a00;
+  border-bottom-color: #8a8a00;
+}
+
+[data-theme="dark"] .note-highlight-active {
+  background-color: #6a6a00;
+}
+
+/* Scrollbar styling for dark mode */
+[data-theme="dark"] .notes-tray-content::-webkit-scrollbar-track {
+  background: #1a1a1a;
+}
+
+[data-theme="dark"] .notes-tray-content::-webkit-scrollbar-thumb {
+  background: #4a4a4a;
+}
+
+[data-theme="dark"] .notes-tray-content::-webkit-scrollbar-thumb:hover {
+  background: #5a5a5a;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .dark-mode-toggle {
+    top: 10px;
+    right: 70px;
+    width: 45px;
+    height: 45px;
+    font-size: 1.3rem;
+  }
+}
+
+/* Smooth transitions for theme changes */
+body,
+header,
+.card,
+.chapter,
+.note-item,
+.notes-tray,
+.notes-tray-content {
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
