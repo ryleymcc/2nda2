@@ -433,18 +433,21 @@
     updateStatus(`Word ${currentIndex + 1} of ${words.length}`);
   }
 
-  // Cache for display center position to avoid repeated DOM measurements
+  // Cache for display dimensions to avoid repeated DOM measurements
   let cachedDisplayCenterX = null;
   
   /**
-   * Get the center X position of the display area (cached)
+   * Get the center X position of the display area
+   * Caches the center X coordinate to minimize expensive getBoundingClientRect() calls
    */
   function getDisplayCenterX() {
+    // Cache center X position since display container doesn't move during playback
     if (cachedDisplayCenterX === null) {
       const displayElement = document.getElementById('rsvp-display');
       const displayRect = displayElement.getBoundingClientRect();
       cachedDisplayCenterX = displayRect.left + displayRect.width / 2;
     }
+    
     return cachedDisplayCenterX;
   }
   
@@ -465,7 +468,7 @@
     // Calculate the center of the ORP character
     const orpCenterX = orpRect.left + orpRect.width / 2;
     
-    // Get the cached display center position
+    // Get the display center position
     const displayCenterX = getDisplayCenterX();
     
     // Calculate how much we need to shift the word
