@@ -122,14 +122,33 @@
   font-size: 2.5rem;
   font-weight: 500;
   text-align: center;
-  font-family: 'Georgia', serif;
+  font-family: 'Courier New', Consolas, Monaco, Menlo, monospace;
   line-height: 1.2;
   word-break: break-word;
+  position: relative;
 }
 
 .rsvp-word {
-  display: inline;
-  letter-spacing: 0.05em;
+  display: block;
+  position: relative;
+  width: 100%;
+  text-align: center;
+  letter-spacing: 0;
+}
+
+/* Base style for ORP word segments */
+.rsvp-before,
+.rsvp-after {
+  display: inline-block;
+  vertical-align: baseline;
+}
+
+.rsvp-before {
+  text-align: right;
+}
+
+.rsvp-after {
+  text-align: left;
 }
 
 /* ORP (Optimal Recognition Point) Highlighting */
@@ -139,6 +158,9 @@
   text-decoration: underline;
   text-decoration-thickness: 3px;
   text-decoration-color: #c62828;
+  display: inline-block;
+  vertical-align: baseline;
+  position: relative;
 }
 
 /* Controls Section */
@@ -260,6 +282,7 @@
     font-size: 2rem;
     min-height: 100px;
     padding: 20px;
+    font-family: 'Courier New', Consolas, Monaco, Menlo, monospace;
   }
   
   .rsvp-header h2 {
