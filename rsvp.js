@@ -413,15 +413,17 @@
     const word = words[currentIndex];
     const orpIndex = calculateORP(word);
     
-    // Build word with ORP highlighting
-    let html = '';
-    for (let i = 0; i < word.length; i++) {
-      if (i === orpIndex) {
-        html += `<span class="rsvp-orp">${escapeHtml(word[i])}</span>`;
-      } else {
-        html += escapeHtml(word[i]);
-      }
-    }
+    // Build word with ORP highlighting using fixed positioning structure
+    // Split word into: before ORP | ORP char | after ORP
+    const before = word.substring(0, orpIndex);
+    const orpChar = word[orpIndex];
+    const after = word.substring(orpIndex + 1);
+    
+    let html = '<span class="rsvp-word-container">';
+    html += `<span class="rsvp-before">${escapeHtml(before)}</span>`;
+    html += `<span class="rsvp-orp">${escapeHtml(orpChar)}</span>`;
+    html += `<span class="rsvp-after">${escapeHtml(after)}</span>`;
+    html += '</span>';
     
     wordElement.innerHTML = html;
     updateStatus(`Word ${currentIndex + 1} of ${words.length}`);
