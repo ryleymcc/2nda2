@@ -54,15 +54,66 @@
 
 /* Dark theme adjustments for specific elements */
 [data-theme="dark"] header {
-  background: linear-gradient(135deg, #1a3a5c, #2a5a8c);
+  background: linear-gradient(135deg, #1a1a1a, #2d2d2d) !important;
+}
+
+[data-theme="dark"] .chapter {
+  background: #3a3a3a;
 }
 
 [data-theme="dark"] .chapter:hover {
-  background: #3a4f6f;
+  background: #4a4a4a !important;
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.5);
+}
+
+[data-theme="dark"] .chapter strong {
+  color: var(--accent);
+}
+
+[data-theme="dark"] .quiz a {
+  background: var(--accent);
 }
 
 [data-theme="dark"] .quiz a:hover {
-  background: #3a7acc;
+  background: #3a8acc !important;
+}
+
+/* Dark mode for quiz page specific elements */
+[data-theme="dark"] .btn-primary {
+  background: #3a3a3a !important;
+  color: var(--accent);
+}
+
+[data-theme="dark"] .option {
+  background: #3a3a3a;
+}
+
+[data-theme="dark"] .option:hover {
+  background: #4a4a4a;
+}
+
+[data-theme="dark"] .option.correct {
+  background: #1a4d2e !important;
+}
+
+[data-theme="dark"] .option.incorrect {
+  background: #4d1a1a !important;
+}
+
+[data-theme="dark"] .results-item {
+  background: #2d2d2d;
+}
+
+[data-theme="dark"] header .controls > div {
+  background: rgba(255, 255, 255, 0.1) !important;
+}
+
+[data-theme="dark"] header button {
+  background: rgba(255, 255, 255, 0.15) !important;
+}
+
+[data-theme="dark"] header button:hover {
+  background: rgba(255, 255, 255, 0.25) !important;
 }
 
 /* Dark mode for notes tray */
